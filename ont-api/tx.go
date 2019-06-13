@@ -26,7 +26,7 @@ func UnMarshalTx(data []byte) (*types.MutableTransaction, error) {
 	return txIm.IntoMutable()
 }
 
-func (oac *OntApiClient) GetTransaction(txHash string) (*TransactionInfo, error) {
+func (oac *OntApiClient) Api_GetTransaction(txHash string) (*TransactionInfo, error) {
 	txEvent, err := oac.OntSdk.GetSmartContractEvent(txHash)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (oac *OntApiClient) GetTransaction(txHash string) (*TransactionInfo, error)
 	}
 
 	for _, evtNotify := range txEvent.Notify {
-		tkc, err := oac.GetTokenClient(evtNotify.ContractAddress)
+		tkc, err := oac.Api_GetTokenClient(evtNotify.ContractAddress)
 		if err != nil {
 			continue
 		}
@@ -140,8 +140,8 @@ func (oac *OntApiClient) GetTransaction(txHash string) (*TransactionInfo, error)
 	return txInfo, nil
 }
 
-func (oac *OntApiClient) SendTransaction(wifHex string, toAddr string, scriptHashHex string, amount uint64) (string, error) {
-	tkc, err := oac.GetTokenClient(scriptHashHex)
+func (oac *OntApiClient) Api_SendTransaction(wifHex string, toAddr string, scriptHashHex string, amount uint64) (string, error) {
+	tkc, err := oac.Api_GetTokenClient(scriptHashHex)
 	if err != nil {
 		return "", err
 	}
@@ -196,8 +196,8 @@ func (oac *OntApiClient) SendTransaction(wifHex string, toAddr string, scriptHas
 	return res.ToHexString(), nil
 }
 
-func (oac *OntApiClient) BuildTransaction(fromAddr string, toAddr string, scriptHashHex string, amount uint64) ([]byte, error) {
-	tkc, err := oac.GetTokenClient(scriptHashHex)
+func (oac *OntApiClient) Api_BuildTransaction(fromAddr string, toAddr string, scriptHashHex string, amount uint64) ([]byte, error) {
+	tkc, err := oac.Api_GetTokenClient(scriptHashHex)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (oac *OntApiClient) BuildTransaction(fromAddr string, toAddr string, script
 	return bytes, nil
 }
 
-func (oac *OntApiClient) SignTransaction(wifHex string, txData []byte) ([]byte, string, error) {
+func (oac *OntApiClient) Api_SignTransaction(wifHex string, txData []byte) ([]byte, string, error) {
 	account, err := newAccountFromWifHex(wifHex)
 	if err != nil {
 		return nil, "", err
@@ -279,7 +279,7 @@ func (oac *OntApiClient) SignTransaction(wifHex string, txData []byte) ([]byte, 
 	return bytes, hash.ToHexString(), nil
 }
 
-func (oac *OntApiClient) PostTransaction(txSignedData []byte) (string, error) {
+func (oac *OntApiClient) Api_PostTransaction(txSignedData []byte) (string, error) {
 	// unpack
 	tx, err := UnMarshalTx(txSignedData)
 	if err != nil {

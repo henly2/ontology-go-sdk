@@ -39,7 +39,7 @@ func NewOntApiClient(rpcUrl, explorerUrl string) *OntApiClient {
 	return oac
 }
 
-func (oac *OntApiClient) RegistTokenInfo(scriptHashHex string) (*TokenInfo, error) {
+func (oac *OntApiClient) Api_RegistTokenInfo(scriptHashHex string) (*TokenInfo, error) {
 	var (
 		err      error
 		tkClient *TokenClient
@@ -192,7 +192,7 @@ func (oac *OntApiClient) RegistTokenInfo(scriptHashHex string) (*TokenInfo, erro
 	return tkClient.TokenInfo, nil
 }
 
-func (oac *OntApiClient) GetTokenInfo(tokenKey string) (*TokenInfo, error) {
+func (oac *OntApiClient) Api_GetTokenInfo(tokenKey string) (*TokenInfo, error) {
 	oac.rwmutex.RLock()
 	defer oac.rwmutex.RUnlock()
 
@@ -203,7 +203,7 @@ func (oac *OntApiClient) GetTokenInfo(tokenKey string) (*TokenInfo, error) {
 	return nil, fmt.Errorf("not find token %s", tokenKey)
 }
 
-func (oac *OntApiClient) GetTokenClient(tokenKey string) (*TokenClient, error) {
+func (oac *OntApiClient) Api_GetTokenClient(tokenKey string) (*TokenClient, error) {
 	oac.rwmutex.RLock()
 	defer oac.rwmutex.RUnlock()
 
@@ -214,11 +214,11 @@ func (oac *OntApiClient) GetTokenClient(tokenKey string) (*TokenClient, error) {
 	return nil, fmt.Errorf("not find token %s", tokenKey)
 }
 
-func (oac *OntApiClient) Height() (uint32, error) {
+func (oac *OntApiClient) Api_Height() (uint64, error) {
 	h, err := oac.OntSdk.GetCurrentBlockHeight()
 	if err != nil {
 		return 0, nil
 	}
 
-	return h, nil
+	return uint64(h), nil
 }

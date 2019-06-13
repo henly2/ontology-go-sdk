@@ -93,8 +93,8 @@ type (
 		Result  struct {
 			TxnHash     string
 			TxnType     int
-			TxnTime     int
-			Height      int
+			TxnTime     int64
+			Height      int64
 			ConfirmFlag int
 			BlockIndex  int
 			Fee         string

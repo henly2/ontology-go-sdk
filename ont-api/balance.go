@@ -6,8 +6,8 @@ import (
 	"github.com/ontio/ontology/common"
 )
 
-func (oac *OntApiClient) GetBalance(addr, scriptHashHex string) (uint64, error) {
-	tkc, err := oac.GetTokenClient(scriptHashHex)
+func (oac *OntApiClient) Api_GetBalance(addr, scriptHashHex string) (uint64, error) {
+	tkc, err := oac.Api_GetTokenClient(scriptHashHex)
 	if err != nil {
 		return 0, err
 	}
