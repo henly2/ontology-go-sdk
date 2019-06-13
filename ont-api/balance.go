@@ -40,7 +40,7 @@ func (oac *OntApiClient) Api_GetBalance(addr, scriptHashHex string) (uint64, err
 
 		b, err := oep4Inst.BalanceOf(address)
 		if err != nil {
-			return 0, nil
+			return 0, err
 		}
 
 		return b.Uint64(), nil

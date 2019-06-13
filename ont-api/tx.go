@@ -161,13 +161,13 @@ func (oac *OntApiClient) Api_SendTransaction(wifHex string, toAddr string, scrip
 		// build
 		tx, err = oac.OntSdk.Native.Ont.NewTransferTransaction(gasPrice, gasLimit, account.Address, toAddress, amount)
 		if err != nil {
-			return "", nil
+			return "", err
 		}
 	} else if ontology_go_sdk.ONG_CONTRACT_ADDRESS.ToHexString() == tkc.ScriptHashHex {
 		// build
 		tx, err = oac.OntSdk.Native.Ong.NewTransferTransaction(gasPrice, gasLimit, account.Address, toAddress, amount)
 		if err != nil {
-			return "", nil
+			return "", err
 		}
 	} else {
 		// oep4
@@ -185,12 +185,12 @@ func (oac *OntApiClient) Api_SendTransaction(wifHex string, toAddr string, scrip
 
 	err = oac.OntSdk.SignToTransaction(tx, account)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	res, err := oac.OntSdk.SendTransaction(tx)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	return res.ToHexString(), nil
@@ -288,7 +288,7 @@ func (oac *OntApiClient) Api_PostTransaction(txSignedData []byte) (string, error
 
 	res, err := oac.OntSdk.SendTransaction(tx)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	return res.ToHexString(), nil

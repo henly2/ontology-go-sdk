@@ -47,7 +47,7 @@ func newAccountFromWifHex(wifHex string) (*ontology_go_sdk.Account, error) {
 func NewAccount() (*ontology_go_sdk.Account, string, error) {
 	account, err := newAccount()
 	if err != nil {
-		return account, "", nil
+		return account, "", err
 	}
 
 	wif, err := keypair.Key2WIF(account.PrivateKey)

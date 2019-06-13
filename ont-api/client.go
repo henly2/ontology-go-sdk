@@ -217,7 +217,7 @@ func (oac *OntApiClient) Api_GetTokenClient(tokenKey string) (*TokenClient, erro
 func (oac *OntApiClient) Api_Height() (uint64, error) {
 	h, err := oac.OntSdk.GetCurrentBlockHeight()
 	if err != nil {
-		return 0, nil
+		return 0, err
 	}
 
 	return uint64(h), nil
