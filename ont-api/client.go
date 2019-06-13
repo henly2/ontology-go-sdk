@@ -222,3 +222,29 @@ func (oac *OntApiClient) Api_Height() (uint64, error) {
 
 	return uint64(h), nil
 }
+
+func (oac *OntApiClient) Api_GetBlock(index uint32) (*BlockInfo, error) {
+	ack, err := oac.OntSdk.GetBlockByHeight(index)
+	if err != nil {
+		return nil, err
+	}
+
+	if ack.Header == nil {
+		return nil, fmt.Errorf("block header is nil")
+	}
+
+	blkHash := ack.Header.Hash()
+	blockInfo := &BlockInfo{
+		Version:   ack.Header.Version,
+		Timestamp: ack.Header.Timestamp,
+		Height:    ack.Header.Height,
+		Hash:      blkHash.ToHexString(),
+	}
+
+	for _, tx := range ack.Transactions {
+		txHash := tx.Hash()
+		blockInfo.Txs = append(blockInfo.Txs, txHash.ToHexString())
+	}
+
+	return blockInfo, nil
+}
